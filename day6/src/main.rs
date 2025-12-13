@@ -71,7 +71,7 @@ fn main() -> Result<(), Error> {
             }
         }
 
-        let mut selected_numbers : Vec<Vec<u32>> = Vec::new();
+        let mut selected_numbers: Vec<Vec<u32>> = Vec::new();
         //Make it go right to left
         for mut n in selected {
             while n.len() != 4 {
@@ -90,20 +90,20 @@ fn main() -> Result<(), Error> {
         // Convert columns to numbers (MSB at bottom)
         let num_cols = selected_numbers[0].len();
         let mut column_numbers = Vec::new();
-        
+
         for col in 0..num_cols {
             let mut number = 0u64;
             let mut multiplier = 1u64;
-            
+
             // Read from top to bottom, building number with MSB at bottom
             for row in 0..selected_numbers.len() {
                 number += selected_numbers[row][col] as u64 * multiplier;
                 multiplier *= 10;
             }
-            
+
             column_numbers.push(number);
         }
-        
+
         println!("Column numbers: {:?}", column_numbers);
 
         for col in column_numbers {
