@@ -9,7 +9,7 @@ where
     let file = File::open(filename)?;
     Ok(io::BufReader::new(file).lines())
 }
-#[derive(Copy, Clone)]
+#[derive(PartialEq, Copy, Clone, Debug)]
 struct Coords {
     x: f64,
     y: f64,
@@ -32,6 +32,7 @@ impl Coords {
     }
 }
 
+#[derive(PartialEq, Copy, Clone, Debug)]
 struct WirePairs {
     item1: Coords,
     item2: Coords,
@@ -50,7 +51,7 @@ fn main() {
         let coords_list: Vec<_> = lines
             .filter_map(|line| Coords::from_str(&line.ok()?))
             .collect();
-        let junction_box: Vec<Vec<Coords>> = Vec::new();
+        let junction_boxs: Vec<Vec<WirePairs>> = Vec::new();
         let mut pairs: Vec<WirePairs> = Vec::new();
         for ca in &coords_list {
             for cb in coords_list.clone() {
@@ -64,5 +65,11 @@ fn main() {
         }
         println!("{}", pairs.len());
         pairs.sort_by(|a, b| a.dis.partial_cmp(&b.dis).expect("Something"));
+
+        if junction_boxs.contains(pairs[0]) {
+            println!("Yes")
+        } else {
+            println!("no");
+        }
     }
 }
